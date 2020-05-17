@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#eeeeee"
+    android:layout_width="700dp"
+    android:layout_height="600dp"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="   설정하기"
+        android:textColor="#000000"
+        android:textSize="30dp"
+        android:fontFamily="@font/ha"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" 카드설정"
+        android:textColor="#000000"
+        android:textSize="30dp"
+        android:fontFamily="@font/ha"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="80dp"
+         >
+        <CheckBox
+            android:id="@+id/checkBox1"
+            android:fontFamily="@font/ha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:textSize="20dp"
+            android:text="표정카드" />
+        <CheckBox
+            android:id="@+id/checkBox2"
+            android:fontFamily="@font/ha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:textSize="20dp"
+            android:text="부모카드" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="300dp"
+         >
+        <Switch
+            android:id="@+id/a_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 알람 설정"
+            android:textSize="30dp"
+            android:thumbTextPadding="150dp"
+            android:fontFamily="@font/ha"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/alarm_Layout"
+            android:layout_width="fill_parent"
+            android:layout_height="500dp"
+            >
+            <TimePicker
+                android:id="@+id/timePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:timePickerMode="spinner"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="80dp"
+
+        >
+        <Button
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="취소"
+        />
+        <Button
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="저장"
+        />
+    </LinearLayout>
+</LinearLayout>
