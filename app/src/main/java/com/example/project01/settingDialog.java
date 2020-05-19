@@ -15,8 +15,11 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -28,6 +31,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Set;
 
 public class settingDialog extends AppCompatActivity {
     public SharedPreferences settings;
@@ -45,6 +49,38 @@ public class settingDialog extends AppCompatActivity {
         getWindow().setAttributes(layoutParams);
 
         setContentView(R.layout.activity_setting_dialog);
+
+        RadioGroup rg = findViewById(R.id.radioGroup);
+        RadioButton rb1 = findViewById(R.id.rb1);
+        RadioButton rb2 = findViewById(R.id.rb2);
+        RadioButton rb3 = findViewById(R.id.rb3);
+        int i = SettingValueGlobal.getInstance().getData();
+        Log.d("testetsts",i+"");
+        switch (i){
+            case 0:
+                rb1.setChecked(true);
+                break;
+            case 1:
+                rb2.setChecked(true);
+                break;
+            case 2:
+                rb3.setChecked(true);
+                break;
+        }
+
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                if ( i == R.id.rb1 ){
+                    SettingValueGlobal.getInstance().setData(0);
+                } else if ( i == R.id.rb2 ){
+                    SettingValueGlobal.getInstance().setData(1);
+                } else if ( i == R.id.rb3 ){
+                    SettingValueGlobal.getInstance().setData(2);
+                }
+            }
+        });
+
 
         Switch sw = (Switch)findViewById(R.id.a_switch);
         final LinearLayout alarm_Layout = (LinearLayout)findViewById(R.id.alarm_Layout);

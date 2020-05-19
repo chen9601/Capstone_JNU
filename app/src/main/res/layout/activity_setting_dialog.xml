@@ -21,26 +21,33 @@
         android:fontFamily="@font/ha"/>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="80dp"
-         >
-        <CheckBox
-            android:id="@+id/checkBox1"
-            android:fontFamily="@font/ha"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:textSize="20dp"
-            android:text="표정카드" />
-        <CheckBox
-            android:id="@+id/checkBox2"
-            android:fontFamily="@font/ha"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="false"
-            android:textSize="20dp"
-            android:text="부모카드" />
+        android:layout_height="90dp"
+        android:orientation="horizontal">
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RadioButton
+                android:id="@+id/rb1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="표정 카드" />
+
+            <RadioButton
+                android:id="@+id/rb2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="부모 카드" />
+
+            <RadioButton
+                android:id="@+id/rb3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="둘 다" />
+        </RadioGroup>
 
     </LinearLayout>
 

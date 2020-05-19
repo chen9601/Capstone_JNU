@@ -2,6 +2,7 @@ package com.example.project01;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void myListener3(View target) {
         if(sw == 0) sound.play(soundId,1f,1f,0,0,1f);
-        Intent intent = new Intent(getApplicationContext(),psetActivity.class);
+        Intent intent = new Intent(getApplicationContext(),PhotoCardActivity.class);
         startActivity(intent);
     }
 

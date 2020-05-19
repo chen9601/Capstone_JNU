@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
@@ -37,6 +38,10 @@ public class fitActivity extends AppCompatActivity {
     Button bt1,bt2,bt3,bt4;
     String sfName = "myFile";
     int sw2=0;
+
+    PhotoCardDatabase pdb =
+            PhotoCardDatabase.getInstance(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +54,12 @@ public class fitActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.fit);
+
+        try {
+            pdb.openDataBase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         bt1 = (Button)findViewById(R.id.b1);
         bt2 = (Button)findViewById(R.id.b2);
@@ -68,6 +79,13 @@ public class fitActivity extends AppCompatActivity {
         });
 
         image = (ImageView)findViewById(R.id.imageview);
+
+        PhotoCard p = pdb.getRandomData(1,SettingValueGlobal.getInstance().getData());
+
+        image.setImageBitmap(p.img);
+        Log.d("dd",p.emotion+" image setting");
+
+
         Randomimage();
 
         input.setOnClickListener(new View.OnClickListener(){
