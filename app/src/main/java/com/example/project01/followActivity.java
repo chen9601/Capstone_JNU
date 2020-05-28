@@ -44,6 +44,8 @@ public class followActivity extends AppCompatActivity {
     ImageView button;
     ImageView imageview;
 
+    Button reset;
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
