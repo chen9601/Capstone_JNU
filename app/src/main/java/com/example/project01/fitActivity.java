@@ -31,6 +31,7 @@ import java.util.Random;
 public class fitActivity extends AppCompatActivity {
     int[] img= {R.drawable.happy,R.drawable.sad,R.drawable.angry,R.drawable.bb,R.drawable.cc,R.drawable.dd,R.drawable.ee,R.drawable.ff};
     int[] ff = new int[8];
+    String answer;
     ImageView image=null;
     TextToSpeech tts;
     int num=0,count=0;
@@ -80,10 +81,11 @@ public class fitActivity extends AppCompatActivity {
 
         image = (ImageView)findViewById(R.id.imageview);
 
-        PhotoCard p = pdb.getRandomData(1,SettingValueGlobal.getInstance().getData());
-
-        image.setImageBitmap(p.img);
-        Log.d("dd",p.emotion+" image setting");
+//        PhotoCard p = pdb.getRandomData(1,SettingValueGlobal.getInstance().getData());
+//
+//
+//        image.setImageBitmap(p.img);
+//        Log.d("dd",p.emotion+" image setting");
 
 
         Randomimage();
@@ -96,12 +98,17 @@ public class fitActivity extends AppCompatActivity {
     }
 
     private void Randomimage() {
-            Random ram = new Random();
-            num = ram.nextInt(img.length);
-            if(ff[num]==1) Randomimage();
-            if(count==8) finish();
-            //randomText(num);
-            image.setImageResource(img[num]);
+//            Random ram = new Random();
+//            num = ram.nextInt(img.length);
+//            if(ff[num]==1) Randomimage();
+//            if(count==8) finish();
+//            //randomText(num);
+//            image.setImageResource(img[num]);
+        PhotoCard p = pdb.getRandomData(1,SettingValueGlobal.getInstance().getData());
+
+        image.setImageBitmap(p.img);
+        Log.d("dd",p.emotion+" image setting");
+        answer = p.emotion;
     }
     public void randomText(int num2){
        // Log.d(TAG,num2+"번 카드");
@@ -219,8 +226,9 @@ public class fitActivity extends AppCompatActivity {
     }
     private void replyAnswer(String input, TextView txt){
         try{
-            switch(num) {
-                case 0:
+//            switch(num) {
+            switch (answer){
+                case "기쁘다": case "기쁘다."://case 0:
                     ff[0]=1;
                     if(input.equals("기뻐 보여") || input.equals("기쁘다") || input.equals("행복해보여") || input.equals("행복하다")  ) {
                         count++;
@@ -230,7 +238,7 @@ public class fitActivity extends AppCompatActivity {
                         tts.speak("다시한번 생각해 볼래", TextToSpeech.QUEUE_FLUSH, null);
                     }
                     break;
-                case 1:
+                case "슬프다": case "슬프다."://case 1:
                     ff[1]=1;
                     if(input.equals("슬퍼 보여") || input.equals("슬프다")) {
                         count++;
@@ -241,7 +249,7 @@ public class fitActivity extends AppCompatActivity {
                         tts.speak("다시한번 생각해볼래", TextToSpeech.QUEUE_FLUSH, null);
                     }
                     break;
-                case 2:
+                case "화나다": case "화나다."://case 2:
                     ff[2]=1;
                     if(input.equals("화나 보여") || input.equals("화나다") ) {
                         tts.speak("맞았어요", TextToSpeech.QUEUE_FLUSH, null);
@@ -252,7 +260,7 @@ public class fitActivity extends AppCompatActivity {
                         tts.speak("다시한번 생각해볼래요", TextToSpeech.QUEUE_FLUSH, null);
                     }
                     break;
-                case 3:
+                case "즐겁다": case "즐겁다."://case 3:
                     ff[3]=1;
                     if(input.equals("즐거워 보여") || input.equals("즐겁다") || input.equals("재밌다")|| input.equals("신난다") ) {
                         tts.speak("맞았어요", TextToSpeech.QUEUE_FLUSH, null);
@@ -263,7 +271,7 @@ public class fitActivity extends AppCompatActivity {
                         tts.speak("다시한번 생각해볼래요", TextToSpeech.QUEUE_FLUSH, null);
                     }
                     break;
-                case 4:
+                case "놀라다": case "놀라다."://case 4:
                     ff[4]=1;
                     if(input.equals("무서워") || input.equals("무섭다") || input.equals("무서워 보여") ) {
                         tts.speak("맞았어요", TextToSpeech.QUEUE_FLUSH, null);
@@ -274,7 +282,7 @@ public class fitActivity extends AppCompatActivity {
                         tts.speak("다시한번 생각해볼래요", TextToSpeech.QUEUE_FLUSH, null);
                     }
                     break;
-                case 5:
+                case "짜증나다": case "짜증나다."://case 5:
                     ff[5]=1;
                     toast("5");
                     if(input.equals("짜증 나") || input.equals("짜증나 보여") || input.equals("짜증나") ) {
@@ -286,7 +294,7 @@ public class fitActivity extends AppCompatActivity {
                         tts.speak("다시한번 생각해볼래요", TextToSpeech.QUEUE_FLUSH, null);
                     }
                     break;
-                case 6:
+                case "자신있다": case "자신있다."://case 6:
                     ff[6]=1;
                     if(input.equals("자신 있다") || input.equals("뿌듯 하다") || input.equals("자신 있어 보여") ) {
                         tts.speak("맞았어요", TextToSpeech.QUEUE_FLUSH, null);
@@ -297,7 +305,7 @@ public class fitActivity extends AppCompatActivity {
                         tts.speak("다시한번 생각해볼래요", TextToSpeech.QUEUE_FLUSH, null);
                     }
                     break;
-                case 7:
+                case "신나다": case "신나다."://case 7:
 
                     ff[7]=1;
                     if(input.equals("신난다") || input.equals("신나 보여") || input.equals("재밌다") ) {
