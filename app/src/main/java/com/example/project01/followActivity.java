@@ -6,7 +6,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Picture;
+import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -29,9 +35,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.project01.predictivemodels.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
+
 
 public class followActivity extends AppCompatActivity {
 
@@ -44,7 +54,10 @@ public class followActivity extends AppCompatActivity {
     ImageView button;
     ImageView imageview;
 
-    Button reset;
+    ImageView reset;
+    TensorFlowClassifier classifier;
+    private SquareImageView faceImageView;
+    PhotoCard p;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -75,21 +88,32 @@ public class followActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        this.faceImageView = (SquareImageView) this.findViewById(R.id.facialImageView);
+
         ImageView image = (ImageView)findViewById(R.id.follow);
-        PhotoCard p = pdb.getRandomData(0,SettingValueGlobal.getInstance().getData());
+        p = pdb.getRandomData(0,SettingValueGlobal.getInstance().getData());
         image.setImageBitmap(p.img);
 
         surfaceView = findViewById(R.id.surfaceview);
         surfaceView.init(this);
 
         button = findViewById(R.id.camerabutton);
-
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Capture();
             }
         });
+
+        reset=findViewById(R.id.reset);
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Reset();
+            }
+        });
+
+        loadModel();
 
     }
     // 카메라
@@ -116,10 +140,101 @@ public class followActivity extends AppCompatActivity {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
                 Log.d("followActivity","capturing");
 
-                camera.startPreview();
+                detectEmotion(bitmap);
             }
         });
     }
+
+    public void Reset()
+    {
+        faceImageView.setVisibility(View.GONE);
+    }
+
+    private void detectEmotion(Bitmap bitmap){
+
+        Bitmap image=bitmap;
+        Bitmap grayImage = toGrayscale(image);
+        Bitmap resizedImage=getResizedBitmap(grayImage,48,48);
+        int pixelarray[];
+
+        //Initialize the intArray with the same size as the number of pixels on the image
+        pixelarray = new int[resizedImage.getWidth()*resizedImage.getHeight()];
+
+        //copy pixel data from the Bitmap into the 'intArray' array
+        resizedImage.getPixels(pixelarray, 0, resizedImage.getWidth(), 0, 0, resizedImage.getWidth(), resizedImage.getHeight());
+
+
+        float normalized_pixels [] = new float[pixelarray.length];
+        for (int i=0; i < pixelarray.length; i++) {
+            // 0 for white and 255 for black
+            int pix = pixelarray[i];
+            int b = pix & 0xff;
+            //  normalized_pixels[i] = (float)((0xff - b)/255.0);
+            // normalized_pixels[i] = (float)(b/255.0);
+            normalized_pixels[i] = (float)(b);
+
+        }
+        System.out.println(normalized_pixels);
+        Log.d("pixel_values",String.valueOf(normalized_pixels));
+
+        try{
+            final Classification res = classifier.recognize(normalized_pixels);
+            //if it can't classify, output a question mark
+            Toast.makeText(this.getApplicationContext(),res.getLabel(),Toast.LENGTH_SHORT).show();
+            }
+        catch (Exception e){
+            System.out.print("Exception:"+e.toString());
+
+        }
+
+        Matrix matrix=new Matrix();
+        matrix.postRotate(270);
+        Bitmap rotatedBitmap = Bitmap.createBitmap(grayImage, 0, 0, grayImage.getWidth(), grayImage.getHeight(), matrix, true);
+
+
+        this.faceImageView.setImageBitmap(rotatedBitmap);
+        faceImageView.setVisibility(View.VISIBLE);
+    }
+
+    private void loadModel() {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    classifier=TensorFlowClassifier.create(getAssets(), "CNN",
+                            "opt_em_convnet_5000.pb", "labels.txt", 48,
+                            "input", "output_50", true, 7);
+
+                } catch (final Exception e) {
+                    //if they aren't found, throw an error!
+                    throw new RuntimeException("Error initializing classifiers!", e);
+                }
+            }
+        }).start();
+    }
+
+    public Bitmap toGrayscale(Bitmap bmpOriginal)
+    {
+        int width, height;
+        height = bmpOriginal.getHeight();
+        width = bmpOriginal.getWidth();
+
+        Bitmap bmpGrayscale = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(bmpGrayscale);
+        Paint paint = new Paint();
+        ColorMatrix cm = new ColorMatrix();
+        cm.setSaturation(0);
+        ColorMatrixColorFilter f = new ColorMatrixColorFilter(cm);
+        paint.setColorFilter(f);
+        c.drawBitmap(bmpOriginal, 0, 0, paint);
+        return bmpGrayscale;
+    }
+
+    public Bitmap getResizedBitmap(Bitmap image, int bitmapWidth, int bitmapHeight) {
+        return Bitmap.createScaledBitmap(image, bitmapWidth, bitmapHeight, true);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -139,4 +254,6 @@ public class followActivity extends AppCompatActivity {
             }
         }
     }
+
+
 }
