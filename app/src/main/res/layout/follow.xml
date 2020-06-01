@@ -26,8 +26,9 @@
             android:layout_weight="1"/>
         <com.example.project01.SquareImageView
             android:id="@+id/facialImageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            android:layout_gravity="center"
             />
 
     </FrameLayout>
