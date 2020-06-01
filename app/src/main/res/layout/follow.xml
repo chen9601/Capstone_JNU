@@ -42,14 +42,26 @@
         android:background="#00FFFFFF"
         app:srcCompat="@drawable/camerabutton" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <ImageView
-        android:id="@+id/reset"
+        android:id="@+id/save"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:text="reset"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
-        android:src="@drawable/reset"></ImageView>
+        android:text="save"
+        android:src="@drawable/save"
+        android:layout_weight="1"></ImageView>
+
+        <ImageView
+            android:id="@+id/reset"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/reset"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_weight="1"></ImageView>
+    </LinearLayout>
+
 
 </LinearLayout>
