@@ -28,14 +28,15 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation 'org.tensorflow:tensorflow-android:+'
-    implementation 'com.github.PhilJay:MPAndriodChart:v3.1.0'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
 repositories {
     maven { url "https://jitpack.io" }
 }
 
+
 dependencies {
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
 }
 
 dependencies {
