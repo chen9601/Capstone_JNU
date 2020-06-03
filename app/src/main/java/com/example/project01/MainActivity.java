@@ -1,9 +1,13 @@
 package com.example.project01;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -30,6 +34,13 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+        if(permissionCheck == PackageManager.PERMISSION_GRANTED){
+            Toast.makeText(this,"Camera Permission Granted",Toast.LENGTH_LONG).show();
+        }else{
+            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.CAMERA},1);
+        }
 
         sound = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
         soundId = sound.load(this, R.raw.blop, 1);
