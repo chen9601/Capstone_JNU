@@ -3,12 +3,13 @@
     android:orientation="vertical"
     android:background="#eeeeee"
     android:layout_width="700dp"
-    android:layout_height="600dp"
+    android:layout_height="520dp"
     >
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="   설정하기"
+        android:text="설정하기"
+        android:layout_marginLeft="100dip"
         android:textColor="#000000"
         android:textSize="30dp"
         android:fontFamily="@font/ha"/>
@@ -22,16 +23,18 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="90dp"
-        android:orientation="horizontal">
+        android:layout_height="40dp"
+        >
 
         <RadioGroup
             android:id="@+id/radioGroup"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/rb1"
+                android:layout_marginLeft="40dip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="표정 카드" />
@@ -48,7 +51,6 @@
                 android:layout_height="wrap_content"
                 android:text="둘 다" />
         </RadioGroup>
-
     </LinearLayout>
 
     <LinearLayout
@@ -74,26 +76,32 @@
                 android:id="@+id/timePicker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="68dip"
                 android:timePickerMode="spinner"/>
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="80dp"
-
         >
         <Button
-
+            android:id="@+id/cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="취소"
+            android:textColor="#ffff"
+            android:layout_marginLeft="150dip"
+            android:backgroundTint="#1A7913"
         />
         <Button
             android:id="@+id/save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="저장"
+            android:textColor="#ffff"
+            android:backgroundTint="#1A7913"
         />
     </LinearLayout>
 </LinearLayout>

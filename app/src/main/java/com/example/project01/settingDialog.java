@@ -127,7 +127,7 @@ public class settingDialog extends AppCompatActivity {
 
         Date nextDate = nextNotifyTime.getTime();
         String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분 ", Locale.getDefault()).format(nextDate);
-        Toast.makeText(getApplicationContext(), "[처음 실행시] 다음 알람은 " + date_text + "으로 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "[처음 실행시] 다음 알람은 " + date_text + "으로 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
 
         Date currentTime = nextNotifyTime.getTime();
         SimpleDateFormat HourFormat = new SimpleDateFormat("kk", Locale.getDefault());
@@ -144,49 +144,63 @@ public class settingDialog extends AppCompatActivity {
             picker.setCurrentMinute(pre_minute);
         }
 
+        Button cancel_bt = (Button)findViewById(R.id.cancel);
+        cancel_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         Button button = (Button) findViewById(R.id.save);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                int hour, hour_24, minute;
-                String am_pm;
-                if (Build.VERSION.SDK_INT >= 23) {
-                    hour_24 = picker.getHour();
-                    minute = picker.getMinute();
-                } else {
-                    hour_24 = picker.getCurrentHour();
-                    minute = picker.getCurrentMinute();
-                }
-                if (hour_24 > 12) {
-                    am_pm = "PM";
-                    hour = hour_24 - 12;
-                } else {
-                    hour = hour_24;
-                    am_pm = "AM";
-                }
+               if(ff==1) {
+                   int hour, hour_24, minute;
+                   String am_pm;
+                   if (Build.VERSION.SDK_INT >= 23) {
+                       hour_24 = picker.getHour();
+                       minute = picker.getMinute();
+                   } else {
+                       hour_24 = picker.getCurrentHour();
+                       minute = picker.getCurrentMinute();
+                   }
+                   if (hour_24 > 12) {
+                       am_pm = "PM";
+                       hour = hour_24 - 12;
+                   } else {
+                       hour = hour_24;
+                       am_pm = "AM";
+                   }
 
-                // 현재 지정된 시간으로 알람 시간 설정
-                  Calendar calendar = Calendar.getInstance();
-                    calendar.setTimeInMillis(System.currentTimeMillis());
-                    calendar.set(Calendar.HOUR_OF_DAY, hour_24);
-                    calendar.set(Calendar.MINUTE, minute);
-                    calendar.set(Calendar.SECOND, 0);
+                   // 현재 지정된 시간으로 알람 시간 설정
+                   Calendar calendar = Calendar.getInstance();
+                   // calendar.setTimeInMillis(System.currentTimeMillis());
+                   calendar.set(Calendar.HOUR_OF_DAY, hour_24);
+                   calendar.set(Calendar.MINUTE, minute);
+                   calendar.set(Calendar.SECOND, 0);
+                   calendar.set(Calendar.MILLISECOND, 0);
 
-                // 이미 지난 시간을 지정했다면 다음날 같은 시간으로 설정
-                    if (calendar.before(Calendar.getInstance())) {
-                     calendar.add(Calendar.DATE, 1);
-                    }
+                   // 이미 지난 시간을 지정했다면 다음날 같은 시간으로 설정
+                   if (calendar.before(Calendar.getInstance())) {
+                       calendar.add(Calendar.DATE, 1);
+                   }
 
-                    Date currentDateTime = calendar.getTime();
-                    String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분 ", Locale.getDefault()).format(currentDateTime);
-                    Toast.makeText(getApplicationContext(), date_text + "으로 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
+                   Date currentDateTime = calendar.getTime();
+                   String date_text = new SimpleDateFormat("hh시 mm분", Locale.getDefault()).format(currentDateTime);
+                   Toast.makeText(getApplicationContext(), date_text + "에 알람이 울립니다.", Toast.LENGTH_SHORT).show();
 
-                //  Preference에 설정한 값 저장
-                    SharedPreferences.Editor editor = getSharedPreferences("daily alarm", MODE_PRIVATE).edit();
-                    editor.putLong("nextNotifyTime", (long) calendar.getTimeInMillis());
-                    editor.apply();
+                   //  Preference에 설정한 값 저장
+                   SharedPreferences.Editor editor = getSharedPreferences("daily alarm", MODE_PRIVATE).edit();
+                   editor.putLong("nextNotifyTime", (long) calendar.getTimeInMillis());
+                   editor.apply();
 
-                diaryNotification(calendar);
+                   diaryNotification(calendar);
+                   finish();
+               }else{
+                   finish();
+               }
             }
         });
     }

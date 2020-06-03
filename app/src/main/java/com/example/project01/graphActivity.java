@@ -1,9 +1,12 @@
-
 package com.example.project01;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
@@ -21,13 +24,18 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,22 +45,49 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+class DBHepler extends SQLiteOpenHelper {
+    private static final String DATABASE_NAME = "graphData.db";
+    private static final int DATABASE_VERSION = 2;
+
+    public DBHepler(Context context){
+        super(context,DATABASE_NAME,null,DATABASE_VERSION);
+    }
+
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE contacts (_id INTEGER PRIMARY KEY"+" AUTOINCREMENT, name TEXT,data TEXT);");
+
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS contacts");
+
+    }
+}
+
 public class graphActivity extends AppCompatActivity {
     private static final String TAG = "ppp";
     String Receive;
     int sw=0;
 
-    ArrayList<String> array2 = new ArrayList<>();
+    BarChart barChart;
+    BarData barData;
+    BarDataSet barDataSet;
+    ArrayList barEntries;
+
     ArrayList<Integer> countArray = new ArrayList<>();
-
-    ArrayList urls = new ArrayList();
-
-    private static final String SETTINGS_PLAYER_JSON = "settings_item_json";
+    ArrayList<Integer> newArray = new ArrayList<>();
 
     SharedPreferences sp = null;
     SharedPreferences.Editor editor = null;
 
-    private LineChart lineChart;
+    DBHepler hepler;
+    SQLiteDatabase db;
+    String name = "graph";
+    Cursor cursor;
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -64,127 +99,55 @@ public class graphActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         Receive = intent.getStringExtra("Count");
-        Log.d(TAG, Receive + "값받나");
 
         setContentView(R.layout.graph);
-        array2 = getStringArrayPref(getApplicationContext(), SETTINGS_PLAYER_JSON);
-        array2.add(Receive);
+        hepler = new DBHepler(this);
 
-        Log.d(TAG,"여기오나?");
-        Log.d(TAG,Receive+"receive값");
-
-        if(Receive==null){
-            for(int i=0; i<countArray.size();i++){
-                Log.d(TAG,countArray.get(i)+"출력");
-            }
-            Chart(countArray);
-        }else{
-            setStringArrayPref(getApplicationContext(), SETTINGS_PLAYER_JSON, array2);
-            Chart(countArray);
-
-            for(int i=0; i<countArray.size();i++){
-                Log.d(TAG,countArray.get(i)+"출력");
-            }
-
+        try{
+            db= hepler.getWritableDatabase();
+        } catch (SQLiteException ex){
+            db = hepler.getReadableDatabase();
+        }
+        if(Receive!=null) {
+            db.execSQL("INSERT INTO contacts VALUES(null,'"+name+"','"+Receive+"');");
         }
 
-    }
+        cursor = db.rawQuery("SELECT name, data FROM contacts WHERE name='"+name+"';",null);
 
-    private void setStringArrayPref(Context context, String key, ArrayList<String> values) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(graphActivity.this);
-        SharedPreferences.Editor editor = prefs.edit();
-        JSONArray a = new JSONArray();
-
-        for (int i = 0; i < values.size(); i++) {
-           a.put(values.get(i));
-
+        if (cursor.moveToFirst()) {
+            do {
+                String num = cursor.getString(1);
+                countArray.add(Integer.parseInt(num));
+            } while (cursor.moveToNext());
         }
-        if (!values.isEmpty()) {
-            Log.d(TAG,values+"test");
-            //Log.d(TAG, a.toString() + "여기가 저장할 때?");
-            editor.putString(key, a.toString());
-        } else {
-            editor.putString(key, null);
-        }
-        editor.apply();
-    }
 
-    private ArrayList getStringArrayPref(Context context, String key) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        String json = prefs.getString(key, null);
+        barChart = findViewById(R.id.barchart);
 
-        if (json != null) {
-            try {
-                JSONArray a = new JSONArray(json);
-                for (int i = 0; i < a.length(); i++) {
-                    String url = a.optString(i);
-                    urls.add(url);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        barEntries = new ArrayList<>();
+        for(int i=0; i<countArray.size(); i++){
+            barEntries.add(new BarEntry(i,countArray.get(i)));
+
+            Log.d(TAG,countArray.get(i)+"값");
         }
-        for(int i=0; i<urls.size(); i++){
-            String aa = urls.get(i).toString();
-            if(aa.length()<=2)   {
-                countArray.add(Integer.parseInt(aa));
-            }
-        }
-        return urls;
+
+
+        barDataSet = new BarDataSet(barEntries,"Data");
+        barData = new BarData(barDataSet);
+
+        barChart.setData(barData);
+        barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        barDataSet.setValueTextColor(Color.BLACK);
+        barDataSet.setValueTextSize(16f);
+
+        Description description = new Description();
+        description.setText("");
+        description.setTextSize(10);
+        barChart.setDescription(description);
+
     }
 
     protected void onPause() {
         super.onPause();
-        setStringArrayPref(getApplicationContext(), SETTINGS_PLAYER_JSON, array2);
-        Log.d(TAG, "Put json");
-
     }
-    public void Chart(ArrayList<Integer> data){
-        lineChart = (LineChart)findViewById(R.id.chart);
-        List<Entry> entries = new ArrayList<>();
-
-        for(int i=0; i<data.size();i++ ){
-            entries.add(new Entry(i,data.get(i)));
-        }
-
-        LineDataSet lineDataSet = new LineDataSet(entries, "속성명1");
-        lineDataSet.setLineWidth(2);
-        lineDataSet.setCircleRadius(6);
-        lineDataSet.setCircleColor(Color.parseColor("#FFA1B4DC"));
-        lineDataSet.setCircleColorHole(Color.BLUE);
-        lineDataSet.setColor(Color.parseColor("#FFA1B4DC"));
-        lineDataSet.setDrawCircleHole(true);
-        lineDataSet.setDrawCircles(true);
-        lineDataSet.setDrawHorizontalHighlightIndicator(false);
-        lineDataSet.setDrawHighlightIndicators(false);
-        lineDataSet.setDrawValues(false);
-
-        LineData lineData = new LineData(lineDataSet);
-        lineChart.setData(lineData);
-
-        XAxis xAxis = lineChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTextColor(Color.BLACK);
-        xAxis.enableGridDashedLine(8, 24, 0);
-
-        YAxis yLAxis = lineChart.getAxisLeft();
-        yLAxis.setTextColor(Color.BLACK);
-
-        YAxis yRAxis = lineChart.getAxisRight();
-        yRAxis.setDrawLabels(false);
-        yRAxis.setDrawAxisLine(false);
-        yRAxis.setDrawGridLines(false);
-
-        Description description = new Description();
-        description.setText("");
-
-        lineChart.setDoubleTapToZoomEnabled(false);
-        lineChart.setDrawGridBackground(false);
-        lineChart.setDescription(description);
-        lineChart.animateY(2000, Easing.EasingOption.EaseInCubic);
-        lineChart.invalidate();
-
-    }
-
 
 }
