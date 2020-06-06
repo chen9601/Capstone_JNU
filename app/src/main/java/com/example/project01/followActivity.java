@@ -80,7 +80,6 @@ public class followActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
         if(permissionCheck == PackageManager.PERMISSION_GRANTED){
-            Toast.makeText(this,"Read Storage Permission Granted",Toast.LENGTH_LONG).show();
         }else{
             ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},1);
             ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
@@ -257,9 +256,9 @@ public class followActivity extends AppCompatActivity {
     {
         if(s1.equals("Angry")&&s2.equals("화나다"))
             return true;
-        else if(s1.equals("Disgust")&&s2.equals("짜증나다"))
+        else if(s1.equals("Disgust")&&s2.equals("화나다"))
             return true;
-        else if(s1.equals("Fear")&&s2.equals("무섭다"))
+        else if(s1.equals("Fear")&&s2.equals("놀라다"))
             return true;
         else if(s1.equals("Happy")&&s2.equals("즐겁다"))
             return true;
@@ -267,7 +266,7 @@ public class followActivity extends AppCompatActivity {
             return true;
         else if(s1.equals("Surprise")&&s2.equals("놀라다"))
             return true;
-        else if(s1.equals("Neutral")&&s2.equals("무표정"))
+        else if(s1.equals("Neutral"))
             return true;
         else return false;
     }
