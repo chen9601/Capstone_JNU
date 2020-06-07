@@ -53,8 +53,6 @@ public class diaryActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Receive = intent.getStringExtra("String");
 
-//        Toast.makeText(getApplicationContext(),Receive, Toast.LENGTH_LONG).show();
-
         setContentView(R.layout.activity_diary);
 
         listView = (ListView) findViewById(R.id.listView);

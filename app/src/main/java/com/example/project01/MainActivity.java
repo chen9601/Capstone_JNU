@@ -18,8 +18,6 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     protected String mRecordingFile;
-    SoundPool sound;
-    int soundId;
     int sw=0;
     static final int GET_STRING=1;
     private static final String TAG = "ppp";
@@ -31,37 +29,35 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
+<<<<<<< Updated upstream
         sound = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
         soundId = sound.load(this, R.raw.blop, 1);
+=======
+>>>>>>> Stashed changes
 
     }
 
     public void myListener(View target) {
-        if(sw == 0) sound.play(soundId,1f,1f,0,0,1f);
         Intent intent = new Intent(getApplicationContext(), followActivity.class);
         startActivity(intent);
     }
 
     public void myListener1(View target) {
-        if(sw == 0) sound.play(soundId,1f,1f,0,0,1f);
         Intent intent = new Intent(getApplicationContext(), todayActivity.class);
         startActivity(intent);
     }
     public void myListener2(View target) {
-        if(sw == 0) sound.play(soundId,1f,1f,0,0,1f);
         Intent in = new Intent(this, fitActivity.class);
         startActivityForResult(in,GET_STRING);
     }
 
 
     public void myListener3(View target) {
-        if(sw == 0) sound.play(soundId,1f,1f,0,0,1f);
         Intent intent = new Intent(getApplicationContext(),PhotoCardActivity.class);
         startActivity(intent);
     }
 
     public void setting(View target){
-        if(sw == 0) sound.play(soundId,1f,1f,0,0,1f);
         Intent intent = new Intent(this, settingDialog.class);
         startActivity(intent);
     }

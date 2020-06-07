@@ -20,8 +20,8 @@
 
         <com.example.project01.CameraSurfaceView
             android:id="@+id/surfaceview"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
             android:layout_gravity="center"
             android:layout_weight="1"/>
         <com.example.project01.SquareImageView

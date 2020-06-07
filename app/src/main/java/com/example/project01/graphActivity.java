@@ -95,6 +95,7 @@ public class graphActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = prefs.edit();
         JSONArray a = new JSONArray();
 
+<<<<<<< Updated upstream
         for (int i = 0; i < values.size(); i++) {
            a.put(values.get(i));
 
@@ -137,6 +138,12 @@ public class graphActivity extends AppCompatActivity {
         super.onPause();
         setStringArrayPref(getApplicationContext(), SETTINGS_PLAYER_JSON, array2);
         Log.d(TAG, "Put json");
+=======
+        barEntries = new ArrayList<>();
+        for(int i=0; i<countArray.size(); i++){
+            barEntries.add(new BarEntry(i,countArray.get(i)));
+         }
+>>>>>>> Stashed changes
 
     }
     public void Chart(ArrayList<Integer> data){

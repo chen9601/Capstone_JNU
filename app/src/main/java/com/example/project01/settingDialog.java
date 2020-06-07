@@ -127,7 +127,10 @@ public class settingDialog extends AppCompatActivity {
 
         Date nextDate = nextNotifyTime.getTime();
         String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분 ", Locale.getDefault()).format(nextDate);
+<<<<<<< Updated upstream
         Toast.makeText(getApplicationContext(), "[처음 실행시] 다음 알람은 " + date_text + "으로 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
+=======
+>>>>>>> Stashed changes
 
         Date currentTime = nextNotifyTime.getTime();
         SimpleDateFormat HourFormat = new SimpleDateFormat("kk", Locale.getDefault());
@@ -148,6 +151,7 @@ public class settingDialog extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+<<<<<<< Updated upstream
                 int hour, hour_24, minute;
                 String am_pm;
                 if (Build.VERSION.SDK_INT >= 23) {
@@ -187,6 +191,50 @@ public class settingDialog extends AppCompatActivity {
                     editor.apply();
 
                 diaryNotification(calendar);
+=======
+               if(ff==1) {
+                   int hour, hour_24, minute;
+                   String am_pm;
+                   if (Build.VERSION.SDK_INT >= 23) {
+                       hour_24 = picker.getHour();
+                       minute = picker.getMinute();
+                   } else {
+                       hour_24 = picker.getCurrentHour();
+                       minute = picker.getCurrentMinute();
+                   }
+                   if (hour_24 > 12) {
+                       am_pm = "PM";
+                       hour = hour_24 - 12;
+                   } else {
+                       hour = hour_24;
+                       am_pm = "AM";
+                   }
+
+                   Calendar calendar = Calendar.getInstance();
+                   calendar.set(Calendar.HOUR_OF_DAY, hour_24);
+                   calendar.set(Calendar.MINUTE, minute);
+                   calendar.set(Calendar.SECOND, 0);
+                   calendar.set(Calendar.MILLISECOND, 0);
+
+                   // 이미 지난 시간을 지정했다면 다음날 같은 시간으로 설정
+                   if (calendar.before(Calendar.getInstance())) {
+                       calendar.add(Calendar.DATE, 1);
+                   }
+
+                   Date currentDateTime = calendar.getTime();
+                   String date_text = new SimpleDateFormat("hh시 mm분", Locale.getDefault()).format(currentDateTime);
+                   Toast.makeText(getApplicationContext(), date_text + "에 알람이 울립니다.", Toast.LENGTH_SHORT).show();
+
+                  SharedPreferences.Editor editor = getSharedPreferences("daily alarm", MODE_PRIVATE).edit();
+                   editor.putLong("nextNotifyTime", (long) calendar.getTimeInMillis());
+                   editor.apply();
+
+                   diaryNotification(calendar);
+                   finish();
+               }else{
+                   finish();
+               }
+>>>>>>> Stashed changes
             }
         });
     }
@@ -218,15 +266,7 @@ public class settingDialog extends AppCompatActivity {
                     PackageManager.DONT_KILL_APP);
 
         }
-//        else { //Disable Daily Notifications
-//            if (PendingIntent.getBroadcast(this, 0, alarmIntent, 0) != null && alarmManager != null) {
-//                alarmManager.cancel(pendingIntent);
-//                //Toast.makeText(this,"Notifications were disabled",Toast.LENGTH_SHORT).show();
-//            }
-//            pm.setComponentEnabledSetting(receiver,
-//                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-//                    PackageManager.DONT_KILL_APP);
-//        }
+
     }
 
 }

@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:background="#E0FFD9"
         android:textSize="25dp"
-        android:text="하루하루 어땠는지 기록.."/>
+        android:fontFamily="@font/ha"
+        android:text="          하루하루 기록하기"/>
     <ListView
         android:id="@+id/listView"
         android:textSize="30dp"
