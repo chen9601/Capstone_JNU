@@ -33,7 +33,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="8"
-                android:background="#F44336"
+                android:textColor="#ffff"
+                android:textSize="20dp"
+                android:background="#1A7913"
                 android:gravity="center"
                 android:text="TextView" />
 

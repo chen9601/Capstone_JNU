@@ -1,88 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:gravity="center"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/FrameLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#E0FFD9"
     >
-
-    <TextView
+    <AbsoluteLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="30dp"
-        android:textColor="#1A7913"
-        android:fontFamily="@font/ha"
-        android:text="Learn_Emo"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#E0FFD9"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_x="60dp"
+            android:layout_y="40dp"
+            android:textSize="30dp"
+            android:textColor="#1A7913"
+            android:fontFamily="@font/ha"
+            android:text="Learn_Emo"/>
 
-    <ImageView
-        android:layout_width="350dp"
-        android:layout_height="350dp"
-        android:src="@drawable/bb"
-        android:id="@+id/imageview"
-        android:layout_marginBottom="20dp"/>
+        <Button
+            android:id="@+id/pass"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:background="@drawable/ic_arrow_forward_black_24dp"
+            android:backgroundTint="#801A7913"
+            android:layout_x="300dp"
+            android:layout_y="39dp" />
 
-    <TableLayout
-        android:layout_gravity="center"
-        android:id="@+id/table1"
-        android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_marginTop="30dp"
-        android:layout_height="wrap_content">
-        <TableRow>
-            <Button
-                android:id="@+id/b1"
-                android:layout_width="200dp"
-                android:layout_height="70dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="10dp"
-                android:background="#1A7913"
-                android:textColor="#FFFFFF"
-                android:fontFamily="@font/ha"
-                android:textSize="30dp"
-                />
-            <Button
-                android:id="@+id/b2"
-                android:layout_width="200dp"
-                android:layout_height="70dp"
-                android:gravity="center"
-                android:background="#1A7913"
-                android:textColor="#FFFFFF"
-                android:textSize="30dp"
-                android:fontFamily="@font/ha"
-                />
-        </TableRow>
-        <TableRow>
-            <Button
-                android:id="@+id/b3"
-                android:layout_width="200dp"
-                android:layout_height="70dp"
-                android:layout_marginRight="20dp"
-                android:gravity="center"
-                android:background="#1A7913"
-                android:textColor="#FFFFFF"
-                android:textSize="30dp"
-                android:fontFamily="@font/ha"
-                />
-            <Button
-                android:id="@+id/b4"
-                android:layout_width="200dp"
-                android:layout_height="70dp"
-                android:gravity="center"
-                android:background="#1A7913"
-                android:textColor="#FFFFFF"
-                android:textSize="30dp"
-                android:fontFamily="@font/ha"
-                />
-        </TableRow>
-    </TableLayout>
-    <Button
-        android:id="@+id/say"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:background="@drawable/ic_keyboard_voice_black_24dp"
-        android:layout_gravity="center"
-        android:backgroundTint="#801A7913"
-        />
-</LinearLayout>
+        <ImageView
+            android:layout_width="350dp"
+            android:layout_height="350dp"
+            android:layout_x="35dp"
+            android:layout_y="140dp"
+            android:src="@drawable/bb"
+            android:id="@+id/imageview"
+            android:layout_marginBottom="20dp"/>
+
+        <Button
+            android:id="@+id/say"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:layout_x="160dp"
+            android:layout_y="580dp"
+            android:background="@drawable/ic_keyboard_voice_black_24dp"
+            android:layout_gravity="center"
+            android:backgroundTint="#801A7913"
+            />
+
+    </AbsoluteLayout>
+</FrameLayout>

@@ -24,6 +24,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -74,6 +75,9 @@ public class followActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.follow);
 
         // 관리 권한 획득
@@ -254,17 +258,17 @@ public class followActivity extends AppCompatActivity {
 
     private boolean check(String s1, String s2)
     {
-        if(s1.equals("Angry")&&s2.equals("화나다"))
+        if(s1.equals("Angry")&&(s2.equals("화나다")||s2.equals("화나다.")))
             return true;
-        else if(s1.equals("Disgust")&&s2.equals("화나다"))
+        else if(s1.equals("Disgust")&&(s2.equals("화나다")||s2.equals("화나다.")))
             return true;
-        else if(s1.equals("Fear")&&s2.equals("놀라다"))
+        else if(s1.equals("Fear")&&(s2.equals("놀라다")||s2.equals("놀라다쁘.")))
             return true;
-        else if(s1.equals("Happy")&&s2.equals("즐겁다"))
+        else if(s1.equals("Happy")&&(s2.equals("기쁘다"))||s2.equals("기쁘다."))
             return true;
-        else if(s1.equals("Sad")&&s2.equals("슬프다"))
+        else if(s1.equals("Sad")&&(s2.equals("슬프다")||s2.equals("슬프다.")))
             return true;
-        else if(s1.equals("Surprise")&&s2.equals("놀라다"))
+        else if(s1.equals("Surprise")&&(s2.equals("놀라다")||s2.equals("놀라다.")))
             return true;
         else if(s1.equals("Neutral"))
             return true;
