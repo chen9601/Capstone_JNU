@@ -1,13 +1,9 @@
 package com.example.project01;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -33,12 +29,6 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
-        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
-        if(permissionCheck == PackageManager.PERMISSION_GRANTED){
-            Toast.makeText(this,"Camera Permission Granted",Toast.LENGTH_LONG).show();
-        }else{
-            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.CAMERA},1);
-        }
     }
 
     public void myListener(View target) {
