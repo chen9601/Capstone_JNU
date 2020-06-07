@@ -1,13 +1,9 @@
 package com.example.project01;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -22,8 +18,6 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     protected String mRecordingFile;
-    SoundPool sound;
-    int soundId;
     int sw=0;
     static final int GET_STRING=1;
     private static final String TAG = "ppp";
@@ -35,44 +29,30 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
-        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
-        if(permissionCheck == PackageManager.PERMISSION_GRANTED){
-            Toast.makeText(this,"Camera Permission Granted",Toast.LENGTH_LONG).show();
-        }else{
-            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.CAMERA},1);
-        }
-
-        sound = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
-        soundId = sound.load(this, R.raw.blop, 1);
 
     }
 
     public void myListener(View target) {
-        if(sw == 0) sound.play(soundId,1f,1f,0,0,1f);
         Intent intent = new Intent(getApplicationContext(), followActivity.class);
         startActivity(intent);
     }
 
     public void myListener1(View target) {
-        if(sw == 0) sound.play(soundId,1f,1f,0,0,1f);
         Intent intent = new Intent(getApplicationContext(), todayActivity.class);
         startActivity(intent);
     }
     public void myListener2(View target) {
-        if(sw == 0) sound.play(soundId,1f,1f,0,0,1f);
         Intent in = new Intent(this, fitActivity.class);
         startActivityForResult(in,GET_STRING);
     }
 
 
     public void myListener3(View target) {
-        if(sw == 0) sound.play(soundId,1f,1f,0,0,1f);
         Intent intent = new Intent(getApplicationContext(),PhotoCardActivity.class);
         startActivity(intent);
     }
 
     public void setting(View target){
-        if(sw == 0) sound.play(soundId,1f,1f,0,0,1f);
         Intent intent = new Intent(this, settingDialog.class);
         startActivity(intent);
     }

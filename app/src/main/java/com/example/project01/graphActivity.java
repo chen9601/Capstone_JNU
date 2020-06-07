@@ -126,10 +126,7 @@ public class graphActivity extends AppCompatActivity {
         barEntries = new ArrayList<>();
         for(int i=0; i<countArray.size(); i++){
             barEntries.add(new BarEntry(i,countArray.get(i)));
-
-            Log.d(TAG,countArray.get(i)+"값");
-        }
-
+         }
 
         barDataSet = new BarDataSet(barEntries,"Data");
         barData = new BarData(barDataSet);
